@@ -23,8 +23,9 @@ jobs:
 
       - name: Copy source into repo
         run: |
-          # Remove this bootstrap workflow so it does not remain in the result
-          rm -f source/.github/workflows/import-source.yml
+          # Skip all upstream workflows: the GITHUB_TOKEN cannot push workflow files
+          # (needs `workflows` scope); the build workflow is added separately via PAT.
+          rm -rf source/.github/workflows
           cp -a source/. dest/
           cd dest
           git config user.name "github-actions[bot]"
